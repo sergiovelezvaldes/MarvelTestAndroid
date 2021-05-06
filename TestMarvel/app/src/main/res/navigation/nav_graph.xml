@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/characterFragment">
+
+    <fragment
+        android:id="@+id/characterFragment"
+        android:name="com.example.testmarvel.ui.character.CharacterFragment"
+        android:label="character_fragment"
+        tools:layout="@layout/character_fragment" >
+        <action
+            android:id="@+id/goToDetailFragment"
+            app:destination="@id/detailCharacterFragment">
+            <argument
+                android:name="idCharacter"
+                android:defaultValue="0"
+                app:argType="integer" />
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/detailCharacterFragment"
+        android:name="com.example.testmarvel.ui.character.detail.DetailCharacterFragment"
+        android:label="fragment_detail_character"
+        tools:layout="@layout/fragment_detail_character" >
+        <action
+            android:id="@+id/action_detailCharacterFragment_to_characterFragment"
+            app:destination="@id/characterFragment" />
+        <argument
+            android:name="idCharacter"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+</navigation>

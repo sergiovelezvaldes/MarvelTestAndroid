@@ -1,0 +1,10 @@
+<resources>
+    <style name="Theme.TestMarvel" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/white</item>
+    </style>
+
+    <style name="Theme.ScrollingApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.ScrollingApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
