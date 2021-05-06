@@ -13,6 +13,7 @@ import com.example.testmarvel.domain.character.model.Character
 import com.example.testmarvel.ui.common.RecyclerViewClickListener
 import com.example.testmarvel.ui.common.extensions.hideKeyboard
 import com.example.testmarvel.ui.common.model.ViewState
+import com.example.testmarvel.ui.common.view.ProgressDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.character_fragment.*
 
@@ -21,11 +22,13 @@ class CharacterFragment : Fragment(R.layout.character_fragment), RecyclerViewCli
 
     private val viewModel: CharacterViewModel by viewModels()
     private var characters: List<Character> = listOf()
+    private lateinit var progressDialog: ProgressDialogFragment
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.loadCharacters()
         initObservers()
+        progressDialog = ProgressDialogFragment.newInstance(false)
     }
 
     private fun initObservers() {
@@ -36,7 +39,7 @@ class CharacterFragment : Fragment(R.layout.character_fragment), RecyclerViewCli
         viewModel.charactersViewState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is ViewState.Loading -> {
-                    // TODO
+                    progressDialog.show(parentFragmentManager)
                 }
                 is ViewState.Data -> {
                     hideKeyboard()
@@ -46,6 +49,7 @@ class CharacterFragment : Fragment(R.layout.character_fragment), RecyclerViewCli
                         it.setHasFixedSize(true)
                         it.adapter = CharacterAdapter(characters, this, requireContext())
                     }
+                    progressDialog.dismiss()
                 }
                 is ViewState.Failure -> {
                     // TODO

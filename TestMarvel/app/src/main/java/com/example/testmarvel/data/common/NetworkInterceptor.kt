@@ -17,10 +17,9 @@ class NetworkInterceptor @Inject constructor(): Interceptor {
             .build()
 
         var newRequest = requestOriginal.newBuilder()
-            .url(url)
+                .url(url)
+                .build()
 
-        var request = newRequest.build()
-
-        return chain.proceed(request);
+        return chain.proceed(newRequest);
     }
 }

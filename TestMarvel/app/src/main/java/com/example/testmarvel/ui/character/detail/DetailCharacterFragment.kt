@@ -17,21 +17,25 @@ import com.example.testmarvel.ui.common.extensions.download
 import com.example.testmarvel.ui.common.extensions.hideKeyboard
 import com.example.testmarvel.ui.common.extensions.replaceByUrlSecure
 import com.example.testmarvel.ui.common.model.ViewState
+import com.example.testmarvel.ui.common.view.ProgressDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.character_fragment.*
 import kotlinx.android.synthetic.main.content_collapsing.*
 import kotlinx.android.synthetic.main.fragment_detail_character.*
+import kotlinx.android.synthetic.main.fragment_progress_dialog.*
 
 @AndroidEntryPoint
 class DetailCharacterFragment : Fragment(R.layout.fragment_detail_character) {
 
     private val args: DetailCharacterFragmentArgs by navArgs()
     private val viewModel: CharacterViewModel by viewModels()
+    private lateinit var progressDialog: ProgressDialogFragment
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.loadCharacterById(args.idCharacter)
         observeCharacterViewState()
+        progressDialog = ProgressDialogFragment.newInstance(false)
 
         backButton.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_detailCharacterFragment_to_characterFragment)
@@ -42,16 +46,17 @@ class DetailCharacterFragment : Fragment(R.layout.fragment_detail_character) {
         viewModel.characterViewState.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is ViewState.Loading -> {
-                    // TODO
+                    progressDialog.show(parentFragmentManager)
                 }
                 is ViewState.Data -> {
                     hideKeyboard()
                     toolbarLayout.title = state.data.name
                     summaryCharacter.text = state.data.description
                     download(imageView = characterImage, state.data.thumbnail.toString().replaceByUrlSecure())
+                    progressDialog.dismiss()
                 }
                 is ViewState.Failure -> {
-                    // TODO
+                    progressDialog.dismiss()
                 }
             }
         })

@@ -13,14 +13,12 @@ abstract class SafeApiRequest {
             if (apiResponse.isSuccessful && apiResponse.code() == 200) {
                 ResultRequest.Success(apiResponse.body())
             } else {
-                //Todo: Error Handling
-                ResultRequest.Failure(ErrorResponse(ErrorCode.UNKNOWN, ""))
+                ResultRequest.Failure(ErrorResponse(ErrorCode.BAD_RESPONSE, apiResponse.code().toString()))
             }
         } catch (throwable: Throwable) {
             when (throwable) {
                 is HttpException -> {
-                    //Todo: Error Handling Http
-                    ResultRequest.Failure(ErrorResponse(ErrorCode.UNKNOWN, ""))
+                    ResultRequest.Failure(ErrorResponse(ErrorCode.NO_NETWORK, throwable.cause.toString()))
                 }
                 else -> {
                     ResultRequest.Failure(
