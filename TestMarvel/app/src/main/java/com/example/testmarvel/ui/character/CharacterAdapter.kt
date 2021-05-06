@@ -13,6 +13,7 @@ import com.example.testmarvel.R
 import com.example.testmarvel.databinding.CharacterItemBinding
 import com.example.testmarvel.domain.character.model.Character
 import com.example.testmarvel.ui.common.RecyclerViewClickListener
+import com.example.testmarvel.ui.common.extensions.replaceByUrlSecure
 import retrofit2.http.Url
 
 class CharacterAdapter(private val characters: List<Character>, private val listener: RecyclerViewClickListener, private val context: Context) : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
@@ -39,16 +40,18 @@ class CharacterAdapter(private val characters: List<Character>, private val list
         val characterImage = ImageView(context)
         characterImage.scaleType = ImageView.ScaleType.FIT_XY
         holder.itemBinding.apply {
-            downloadAndShowImage(characterImage, character?.thumbnail.toString())
+            var secureUrlImage = character?.thumbnail.toString().replaceByUrlSecure()
+            downloadAndShowImage(characterImage, secureUrlImage)
             linearCharacter.addView(characterImage)
+
         }
 
     }
 
-    private fun downloadAndShowImage(thumbnailVenue: ImageView, url: String) = Glide.with(context)
-            .load("https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg")
+    private fun downloadAndShowImage(thumbnailCharacter: ImageView, url: String) = Glide.with(context)
+            .load(url)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
-            .into(thumbnailVenue)
+            .into(thumbnailCharacter)
 
     inner class CharacterViewHolder(
             val itemBinding: CharacterItemBinding

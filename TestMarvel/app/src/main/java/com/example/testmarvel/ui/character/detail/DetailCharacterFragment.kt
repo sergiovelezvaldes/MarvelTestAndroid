@@ -15,6 +15,7 @@ import com.example.testmarvel.ui.character.CharacterAdapter
 import com.example.testmarvel.ui.character.CharacterViewModel
 import com.example.testmarvel.ui.common.extensions.download
 import com.example.testmarvel.ui.common.extensions.hideKeyboard
+import com.example.testmarvel.ui.common.extensions.replaceByUrlSecure
 import com.example.testmarvel.ui.common.model.ViewState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.character_fragment.*
@@ -47,6 +48,7 @@ class DetailCharacterFragment : Fragment(R.layout.fragment_detail_character) {
                     hideKeyboard()
                     toolbarLayout.title = state.data.name
                     summaryCharacter.text = state.data.description
+                    download(imageView = characterImage, state.data.thumbnail.toString().replaceByUrlSecure())
                 }
                 is ViewState.Failure -> {
                     // TODO
