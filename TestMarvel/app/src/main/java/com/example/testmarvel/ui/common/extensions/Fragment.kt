@@ -1,5 +1,6 @@
 package com.example.testmarvel.ui.common.extensions
 
+import android.app.AlertDialog
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -8,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.testmarvel.MarvelApp
+import com.example.testmarvel.R
 import retrofit2.http.Url
 
 
@@ -28,3 +30,12 @@ fun Fragment.download(
         .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
         .into(imageView)
 }
+
+fun Fragment.alert(title: String = "Oops", description: String = "We couldn't find information to you, please try again later"): AlertDialog =
+    AlertDialog.Builder(this.context)
+        .setTitle(title)
+        .setMessage(description)
+        .setPositiveButton(R.string.Ok) { view, _ ->
+            view.dismiss()
+        }
+        .create()

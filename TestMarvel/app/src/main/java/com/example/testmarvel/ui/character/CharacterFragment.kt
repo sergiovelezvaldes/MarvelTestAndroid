@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testmarvel.R
 import com.example.testmarvel.domain.character.model.Character
 import com.example.testmarvel.ui.common.RecyclerViewClickListener
+import com.example.testmarvel.ui.common.extensions.alert
 import com.example.testmarvel.ui.common.extensions.hideKeyboard
 import com.example.testmarvel.ui.common.model.ViewState
 import com.example.testmarvel.ui.common.view.ProgressDialogFragment
@@ -52,7 +53,8 @@ class CharacterFragment : Fragment(R.layout.character_fragment), RecyclerViewCli
                     progressDialog.dismiss()
                 }
                 is ViewState.Failure -> {
-                    // TODO
+                    progressDialog.dismiss()
+                    alert().show()
                 }
             }
         })

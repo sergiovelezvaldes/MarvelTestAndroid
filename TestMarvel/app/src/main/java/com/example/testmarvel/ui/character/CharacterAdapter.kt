@@ -13,8 +13,6 @@ import com.example.testmarvel.R
 import com.example.testmarvel.databinding.CharacterItemBinding
 import com.example.testmarvel.domain.character.model.Character
 import com.example.testmarvel.ui.common.RecyclerViewClickListener
-import com.example.testmarvel.ui.common.extensions.replaceByUrlSecure
-import retrofit2.http.Url
 
 class CharacterAdapter(private val characters: List<Character>, private val listener: RecyclerViewClickListener, private val context: Context) : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
 
@@ -40,10 +38,8 @@ class CharacterAdapter(private val characters: List<Character>, private val list
         val characterImage = ImageView(context)
         characterImage.scaleType = ImageView.ScaleType.FIT_XY
         holder.itemBinding.apply {
-            var secureUrlImage = character?.thumbnail.toString().replaceByUrlSecure()
-            downloadAndShowImage(characterImage, secureUrlImage)
+            character?.thumbnail?.let { downloadAndShowImage(characterImage, it) }
             linearCharacter.addView(characterImage)
-
         }
 
     }
@@ -52,6 +48,8 @@ class CharacterAdapter(private val characters: List<Character>, private val list
             .load(url)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
             .into(thumbnailCharacter)
+
+    // No Hardcode code add to val.
 
     inner class CharacterViewHolder(
             val itemBinding: CharacterItemBinding
